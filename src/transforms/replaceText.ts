@@ -15,7 +15,7 @@ export function applyReplaceText(doc: CastDocument, search: string, replacement:
     const replaced = e.data.replace(re, replacement);
     return replaced !== e.data ? { ...e, data: replaced } : e;
   });
-  return { header: { ...doc.header }, events };
+  return { ...doc, header: { ...doc.header }, events };
 }
 
 export function countMatches(doc: CastDocument, search: string, glob = false): number {

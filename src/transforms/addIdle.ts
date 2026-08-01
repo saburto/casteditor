@@ -8,6 +8,7 @@ export function addIdle(doc: CastDocument, atTime: number, duration: number): Ca
     doc.header.duration ??
     (doc.events.length > 0 ? doc.events[doc.events.length - 1].time : 0);
   return {
+    ...doc,
     header: {
       ...doc.header,
       duration: originalDuration + duration,

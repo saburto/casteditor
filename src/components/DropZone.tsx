@@ -134,7 +134,10 @@ export default function DropZone() {
           onClick={(e) => e.stopPropagation()}
           sx={{ fontFamily: "monospace", userSelect: "all" }}
         >
-          asciinema record --output-format asciicast-v2 --stdin my_nice.cast
+          asciinema rec my_nice.cast
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          both v2 and v3 .cast files supported — use --stdin for input capture
         </Typography>
         <UploadFileIcon sx={{ fontSize: 64, color: "primary.main" }} />
         <Typography variant="h5" component="h1">

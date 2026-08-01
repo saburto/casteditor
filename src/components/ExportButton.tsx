@@ -36,16 +36,18 @@ export default function ExportButton() {
   const [svgWindow, setSvgWindow] = useLocalStorage('export.svg.window', true);
   const [svgCursor, setSvgCursor] = useLocalStorage('export.svg.cursor', true);
 
-  const handleExportCast = useCallback(() => {
+  const handleExportCast = useCallback((version: 2 | 3 = 2) => {
     if (!state.document) return;
-    const text = serializeCast(state.document);
-    triggerDownload(text, state.filename ?? 'recording.cast', 'text/plain');
+    const text = serializeCast(state.document, version);
+    const ext = version === 3 ? '.v3.cast' : '.cast';
+    const base = state.filename?.replace(/\.cast$/, '') ?? 'recording';
+    triggerDownload(text, `${base}${ext}`, 'text/plain');
   }, [state.document, state.filename]);
 
   const handleExportSvg = useCallback(async () => {
     if (!state.document) return;
     setSvgDialogOpen(false);
-    const castText = serializeCast(state.document);
+    const castText = serializeCast(state.document, 2);
     const { render } = await import('svg-term');
     const svg = render(castText, { window: svgWindow, paddingX: 2, paddingY: 1, cursor: svgCursor });
     const basename = state.filename?.replace(/\.cast$/, '') ?? 'recording';
@@ -55,7 +57,7 @@ export default function ExportButton() {
   return (
     <>
       <ButtonGroup ref={anchorRef} variant="contained" size="small" disabled={!state.document}>
-        <Button startIcon={<DownloadIcon />} onClick={handleExportCast}>
+        <Button startIcon={<DownloadIcon />} onClick={() => handleExportCast()}>
           Export
         </Button>
         <Button size="small" onClick={() => setOpen(o => !o)} sx={{ px: 0.5, minWidth: 'unset' }}>
@@ -68,7 +70,8 @@ export default function ExportButton() {
             <Paper elevation={3}>
               <ClickAwayListener onClickAway={() => setOpen(false)}>
                 <MenuList dense>
-                  <MenuItem onClick={handleExportCast}>asciicast v2</MenuItem>
+                  <MenuItem onClick={() => { setOpen(false); handleExportCast(2); }}>asciicast v2</MenuItem>
+                  <MenuItem onClick={() => { setOpen(false); handleExportCast(3); }}>asciicast v3</MenuItem>
                   <MenuItem onClick={() => { setOpen(false); setSvgDialogOpen(true); }}>svg</MenuItem>
                 </MenuList>
               </ClickAwayListener>

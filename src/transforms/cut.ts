@@ -13,5 +13,5 @@ export function applyCut(doc: CastDocument, range: TimeRange): CastDocument {
       return e;
     });
 
-  return { header: { ...doc.header }, events };
+  return { ...doc, header: { ...doc.header }, events };
 }

@@ -95,5 +95,5 @@ export function applyResize(
     events = doc.events;
   }
 
-  return { header: { ...doc.header, width, height }, events };
+  return { ...doc, header: { ...doc.header, width, height }, events };
 }

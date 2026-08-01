@@ -21,6 +21,7 @@ export const EVENT_COLORS: Record<string, string> = {
   i: '#2196f3',
   r: '#ff9800',
   m: '#9c27b0',
+  x: '#f44336',
 };
 
 export const EVENT_LABELS: Record<string, string> = {
@@ -28,4 +29,5 @@ export const EVENT_LABELS: Record<string, string> = {
   i: 'Input',
   r: 'Resize',
   m: 'Marker',
+  x: 'Exit',
 };

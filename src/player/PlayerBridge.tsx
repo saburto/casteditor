@@ -46,7 +46,7 @@ function PlayerBridge({ document, onTimeUpdate }, ref) {
 
       if (containerRef.current) {
         containerRef.current.innerHTML = '';
-        const castText = serializeCast(document);
+        const castText = serializeCast(document, 2);
         playerRef.current = AsciinemaPlayer.create(
           { data: castText },
           containerRef.current,

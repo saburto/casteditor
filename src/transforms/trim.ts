@@ -8,6 +8,7 @@ export function applyTrim(doc: CastDocument, inPoint: number, outPoint: number):
     .map(e => ({ ...e, time: r3(e.time - inPoint) }));
 
   return {
+    ...doc,
     header: { ...doc.header, duration: r3(outPoint - inPoint) },
     events,
   };

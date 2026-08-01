@@ -16,16 +16,17 @@ Give a try to the live app here: https://the8tre.github.io/casteditor/
 - **Resize** — change terminal dimensions
 - **Replace Text** — find and replace text in output events
 - **Undo / Redo** — full history (Ctrl+Z / Ctrl+Y)
-- **Export** — download as `asciicast v2` or animated **SVG** (with window chrome and cursor options)
+- **Export** — download as `asciicast v2`, `asciicast v3`, or animated **SVG** (with window chrome and cursor options)
 - **Load Sample** — try the editor instantly with a built-in example recording
 - Tool options (idle threshold, idle length, key interval) are remembered across sessions via localStorage
 
 ## Create your own casts
 - `brew install asciinema`
 - Follow the directions here: https://docs.asciinema.org/getting-started/
-- Format must be `asciicast-v2`
+- Both **v2** and **v3** `.cast` formats are supported
 - Be sure to use the `--stdin` option if you want the user input to be captured and be able to use the Normalize Input feature
-- Example: `asciinema record --output-format asciicast-v2 --overwrite --stdin my_nice.cast`
+- Example (v2): `asciinema record --output-format asciicast-v2 --stdin my_nice.cast`
+- Example (v3, default): `asciinema rec --stdin my_nice.cast`
 
 ## Getting Started
 
