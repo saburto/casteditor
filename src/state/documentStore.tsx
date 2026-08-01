@@ -10,6 +10,17 @@ import { applyNormalizeInput } from '../transforms/normalizeInput';
 import { applyReplaceText } from '../transforms/replaceText';
 import { addIdle } from '../transforms/addIdle';
 
+function readInitialFontFamily(): string {
+  try {
+    const stored = localStorage.getItem('fontFamily');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (typeof parsed === 'string') return parsed;
+    }
+  } catch { /* ignore */ }
+  return 'monospace';
+}
+
 const MAX_UNDO = 50;
 
 const initialState: EditorState = {
@@ -18,6 +29,7 @@ const initialState: EditorState = {
   selection: null,
   playhead: 0,
   activePanel: null,
+  fontFamily: readInitialFontFamily(),
   past: [],
   future: [],
 };
@@ -45,6 +57,9 @@ function reducer(state: EditorState, action: Action): EditorState {
 
     case 'SET_ACTIVE_PANEL':
       return { ...state, activePanel: action.payload };
+
+    case 'SET_FONT_FAMILY':
+      return { ...state, fontFamily: action.payload };
 
     case 'APPLY_TRIM': {
       if (!state.document) return state;
@@ -187,6 +202,13 @@ export const EditorContext = createContext<EditorContextValue | null>(null);
 
 export function EditorProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // persist fontFamily to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('fontFamily', JSON.stringify(state.fontFamily));
+    } catch { /* ignore */ }
+  }, [state.fontFamily]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {

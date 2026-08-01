@@ -17,9 +17,10 @@ import NormalizeInputPanel from './panels/NormalizeInputPanel';
 import ResizePanel from './panels/ResizePanel';
 import ReplaceTextPanel from './panels/ReplaceTextPanel';
 import ThemePanel from './panels/ThemePanel';
+import FontPanel from './panels/FontPanel';
 import InfoPanel from './panels/InfoPanel';
 
-const GLOBAL_PANELS = new Set(['resize', 'replaceText', 'theme', 'info']);
+const GLOBAL_PANELS = new Set(['resize', 'replaceText', 'theme', 'font', 'info']);
 
 export default function EditorLayout() {
   const { state, dispatch } = useEditor();
@@ -56,6 +57,7 @@ export default function EditorLayout() {
       case 'resize': return <ResizePanel />;
       case 'replaceText': return <ReplaceTextPanel />;
       case 'theme': return <ThemePanel />;
+      case 'font': return <FontPanel />;
       default: return null;
     }
   };
@@ -92,7 +94,7 @@ export default function EditorLayout() {
       <MainToolbar />
 
       <Box sx={{ flex: '1 1 0', minHeight: 0, overflow: 'hidden', p: 1 }}>
-        <PlayerBridge ref={playerRef} document={document} onTimeUpdate={handleTimeUpdate} />
+        <PlayerBridge ref={playerRef} document={document} fontFamily={state.fontFamily} onTimeUpdate={handleTimeUpdate} />
       </Box>
 
       <Box sx={{ flex: '0 0 auto', mx: 1 }}>

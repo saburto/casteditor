@@ -51,7 +51,7 @@ export interface CastDocument {
 
 export interface TimeRange { start: number; end: number; }
 
-export type PanelId = 'trim' | 'cut' | 'speed' | 'removeIdle' | 'addIdle' | 'normalizeInput' | 'resize' | 'replaceText' | 'theme' | 'info';
+export type PanelId = 'trim' | 'cut' | 'speed' | 'removeIdle' | 'addIdle' | 'normalizeInput' | 'resize' | 'replaceText' | 'theme' | 'font' | 'info';
 
 export interface EditorState {
   document: CastDocument | null;
@@ -59,6 +59,7 @@ export interface EditorState {
   selection: TimeRange | null;
   playhead: number;
   activePanel: PanelId | null;
+  fontFamily: string;
   past: CastDocument[];   // undo stack (capped at 50)
   future: CastDocument[];
 }

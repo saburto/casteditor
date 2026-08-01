@@ -5,6 +5,7 @@ export type Action =
   | { type: 'SET_SELECTION'; payload: TimeRange | null }
   | { type: 'SET_PLAYHEAD'; payload: number }
   | { type: 'SET_ACTIVE_PANEL'; payload: PanelId | null }
+  | { type: 'SET_FONT_FAMILY'; payload: string }
   | { type: 'APPLY_TRIM'; payload: { inPoint: number; outPoint: number } }
   | { type: 'APPLY_CUT'; payload: TimeRange }
   | { type: 'APPLY_SPEED'; payload: { multiplier: number; range?: TimeRange } }

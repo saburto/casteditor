@@ -10,6 +10,7 @@ export const PANEL_COLORS: Record<string, { r: number; g: number; b: number }> =
   resize:         { r:  76, g: 175, b:  80 },
   replaceText:    { r: 255, g: 235, b:  59 },
   theme:          { r: 121, g:  85, b: 196 },
+  font:           { r:   0, g: 150, b: 136 },
 };
 export const DEFAULT_COLOR = { r: 33, g: 150, b: 243 };
 
