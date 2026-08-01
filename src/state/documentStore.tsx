@@ -136,6 +136,18 @@ function reducer(state: EditorState, action: Action): EditorState {
       };
     }
 
+    case 'APPLY_THEME': {
+      if (!state.document) return state;
+      const newHeader = { ...state.document.header, theme: action.payload.theme ?? undefined };
+      const newDoc = { ...state.document, header: newHeader };
+      return {
+        ...state,
+        document: newDoc,
+        past: pushUndo(state.past, state.document),
+        future: [],
+      };
+    }
+
     case 'UNDO': {
       if (state.past.length === 0 || !state.document) return state;
       const prev = state.past[state.past.length - 1];
