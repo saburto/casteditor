@@ -47,10 +47,18 @@ function PlayerBridge({ document, onTimeUpdate }, ref) {
       if (containerRef.current) {
         containerRef.current.innerHTML = '';
         const castText = serializeCast(document, 2);
+
+        // If the document has an embedded theme, let the player read it from the
+        // cast data (don't override with a player option). Otherwise use monokai.
+        const playerOpts: Record<string, unknown> = { startAt, fit: 'height' };
+        if (!document.header.theme) {
+          playerOpts.theme = 'monokai';
+        }
+
         playerRef.current = AsciinemaPlayer.create(
           { data: castText },
           containerRef.current,
-          { startAt, fit: 'height', theme: 'monokai' }
+          playerOpts as Parameters<typeof AsciinemaPlayer.create>[2]
         );
       }
     };

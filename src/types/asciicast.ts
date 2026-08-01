@@ -7,6 +7,13 @@ export interface CastEvent {
   data: string;
 }
 
+/** Terminal color theme embedded in the asciicast header. */
+export interface CastTheme {
+  fg: string;       // hex foreground color, e.g. "#d0d0d0"
+  bg: string;       // hex background color, e.g. "#121212"
+  palette: string;  // colon-separated 16 hex ANSI colors
+}
+
 export interface CastHeader {
   version: 2 | 3;
   width: number;
@@ -23,6 +30,8 @@ export interface CastHeader {
   env?: Record<string, string>;
   /** v3: idle time limit used during recording */
   idle_time_limit?: number;
+  /** Terminal color theme (v2 top-level or v3 term.theme) */
+  theme?: CastTheme;
   [key: string]: unknown;  // preserve unknown fields on round-trip
 }
 
@@ -42,7 +51,7 @@ export interface CastDocument {
 
 export interface TimeRange { start: number; end: number; }
 
-export type PanelId = 'trim' | 'cut' | 'speed' | 'removeIdle' | 'addIdle' | 'normalizeInput' | 'resize' | 'replaceText' | 'info';
+export type PanelId = 'trim' | 'cut' | 'speed' | 'removeIdle' | 'addIdle' | 'normalizeInput' | 'resize' | 'replaceText' | 'theme' | 'info';
 
 export interface EditorState {
   document: CastDocument | null;

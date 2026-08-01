@@ -1,4 +1,14 @@
-import type { CastDocument, CastComment, CastEvent, CastHeader, EventType } from '../types/asciicast';
+import type { CastDocument, CastComment, CastEvent, CastHeader, CastTheme, EventType } from '../types/asciicast';
+
+function parseTheme(raw: unknown): CastTheme | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const t = raw as Record<string, unknown>;
+  const fg = t.fg;
+  const bg = t.bg;
+  const palette = t.palette;
+  if (typeof fg !== 'string' || typeof bg !== 'string' || typeof palette !== 'string') return undefined;
+  return { fg, bg, palette };
+}
 
 function normalizeHeader(raw: Record<string, unknown>): CastHeader {
   const version = raw.version as number;
@@ -10,6 +20,7 @@ function normalizeHeader(raw: Record<string, unknown>): CastHeader {
   let height: number;
   let termType: string | undefined;
   let termVersion: string | undefined;
+  let theme: CastTheme | undefined;
 
   if (version === 3 && raw.term && typeof raw.term === 'object') {
     const term = raw.term as Record<string, unknown>;
@@ -17,13 +28,15 @@ function normalizeHeader(raw: Record<string, unknown>): CastHeader {
     height = (term.rows as number) ?? 24;
     termType = term.type as string | undefined;
     termVersion = term.version as string | undefined;
+    theme = parseTheme(term.theme);
   } else {
     width = (raw.width as number) ?? 80;
     height = (raw.height as number) ?? 24;
+    theme = parseTheme(raw.theme);
   }
 
-  // Delete raw's width/height/term so the spread won't clobber normalized values
-  const { version: _v, width: _w, height: _h, term: _term, ...rest } = raw;
+  // Delete known keys so the spread won't clobber normalized values
+  const { version: _v, width: _w, height: _h, term: _term, theme: _theme, ...rest } = raw;
 
   return {
     version,
@@ -37,6 +50,7 @@ function normalizeHeader(raw: Record<string, unknown>): CastHeader {
     timestamp: raw.timestamp as number | undefined,
     env: raw.env as Record<string, string> | undefined,
     idle_time_limit: raw.idle_time_limit as number | undefined,
+    theme,
   };
 }
 

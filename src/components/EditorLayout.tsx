@@ -16,9 +16,10 @@ import AddIdlePanel from './panels/AddIdlePanel';
 import NormalizeInputPanel from './panels/NormalizeInputPanel';
 import ResizePanel from './panels/ResizePanel';
 import ReplaceTextPanel from './panels/ReplaceTextPanel';
+import ThemePanel from './panels/ThemePanel';
 import InfoPanel from './panels/InfoPanel';
 
-const GLOBAL_PANELS = new Set(['resize', 'replaceText', 'info']);
+const GLOBAL_PANELS = new Set(['resize', 'replaceText', 'theme', 'info']);
 
 export default function EditorLayout() {
   const { state, dispatch } = useEditor();
@@ -54,6 +55,7 @@ export default function EditorLayout() {
       case 'normalizeInput': return <NormalizeInputPanel />;
       case 'resize': return <ResizePanel />;
       case 'replaceText': return <ReplaceTextPanel />;
+      case 'theme': return <ThemePanel />;
       default: return null;
     }
   };

@@ -18,6 +18,7 @@ function buildHeader(doc: CastDocument, version: OutputVersion): Record<string, 
     };
     if (h.termType) term.type = h.termType;
     if (h.termVersion) term.version = h.termVersion;
+    if (h.theme) term.theme = h.theme;
 
     const header: Record<string, unknown> = {
       version: 3,
@@ -32,7 +33,7 @@ function buildHeader(doc: CastDocument, version: OutputVersion): Record<string, 
     // Preserve any unknown fields from the original header (skip ones we handle explicitly)
     for (const [key, value] of Object.entries(h)) {
       if (['version', 'width', 'height', 'termType', 'termVersion',
-           'timestamp', 'env', 'idle_time_limit', 'title', 'duration'].includes(key)) continue;
+           'timestamp', 'env', 'idle_time_limit', 'title', 'duration', 'theme'].includes(key)) continue;
       if (!(key in header)) header[key] = value;
     }
 
@@ -47,11 +48,12 @@ function buildHeader(doc: CastDocument, version: OutputVersion): Record<string, 
     duration: r3(lastEventTime),
   };
   if (h.title) header.title = h.title;
+  if (h.theme) header.theme = h.theme;
 
   // Preserve unknown fields
   for (const [key, value] of Object.entries(h)) {
     if (['version', 'width', 'height', 'duration', 'title',
-         'termType', 'termVersion', 'timestamp', 'env', 'idle_time_limit'].includes(key)) continue;
+         'termType', 'termVersion', 'timestamp', 'env', 'idle_time_limit', 'theme'].includes(key)) continue;
     if (!(key in header)) header[key] = value;
   }
 
