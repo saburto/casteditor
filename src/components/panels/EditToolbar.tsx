@@ -7,6 +7,7 @@ import type { PanelId } from '../../types/asciicast';
 const PANELS: { id: PanelId; label: string }[] = [
   { id: 'info', label: 'Info' },
   { id: 'theme', label: 'Theme' },
+  { id: 'font', label: 'Font' },
   { id: 'resize', label: 'Resize' },
   { id: 'speed', label: 'Speed' },
   { id: 'trim', label: 'Trim' },

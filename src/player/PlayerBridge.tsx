@@ -11,11 +11,12 @@ export interface PlayerBridgeHandle {
 
 interface PlayerBridgeProps {
   document: CastDocument;
+  fontFamily?: string;
   onTimeUpdate?: (time: number) => void;
 }
 
 const PlayerBridge = forwardRef<PlayerBridgeHandle, PlayerBridgeProps>(
-function PlayerBridge({ document, onTimeUpdate }, ref) {
+function PlayerBridge({ document, fontFamily, onTimeUpdate }, ref) {
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<PlayerInstance | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -70,7 +71,26 @@ function PlayerBridge({ document, onTimeUpdate }, ref) {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [document]);
+  }, [document, fontFamily]);
+
+  // Inject font CSS — runs after player recreation so new DOM gets the font
+  useEffect(() => {
+    const STYLE_ID = 'casteditor-font-override';
+    const doc = window.document;
+    let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
+    if (!styleEl) {
+      styleEl = doc.createElement('style');
+      styleEl.id = STYLE_ID;
+      doc.head.appendChild(styleEl);
+    }
+    if (!fontFamily || fontFamily === 'monospace') {
+      styleEl.textContent = '';
+    } else {
+      styleEl.textContent = `.ap-player, .ap-player * { font-family: "${fontFamily}", monospace !important; }`;
+    }
+  }, [document, fontFamily]);
+
+
 
   // Poll time — getCurrentTime() returns a Promise<number>
   useEffect(() => {
